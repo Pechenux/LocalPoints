@@ -2,62 +2,43 @@ const path = require('path')
 
 const webpack = require('webpack')
 const TerserPlugin = require('terser-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const nodeExternals = require('webpack-node-externals')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 
-const isProduction = process.env.NODE_ENV === 'production'
-const isDevelopment = !isProduction
-const resultDir = path.join(__dirname, isProduction ? 'out' : 'dist')
-
-const commonConfig = {
-  mode: isProduction ? 'production' : 'development',
-  target: 'web',
+const serverConfig = {
+  mode: 'production',
+  target: 'node',
   externals: [nodeExternals()],
   externalsPresets: {
     node: true,
   },
-  watchOptions: {
-    aggregateTimeout: 1000,
-    poll: 2000,
-    ignored: /node_modules/,
-  },
   entry: {
-    // server: [path.join(__dirname, 'src', 'server', 'index')],
-    client: [
-      isProduction ? undefined : 'webpack-hot-middleware/client',
-      path.join(__dirname, 'src', 'client', 'index'),
-    ].filter(Boolean),
+    server: [path.join(__dirname, 'src', 'server', 'index')],
   },
   output: {
-    path: resultDir,
+    path: path.join(__dirname, 'out'),
     publicPath: '/',
-    filename: '[name].bundle.js',
+    filename: 'server.js',
     chunkFilename: '[name].js',
   },
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify(isProduction ? 'production' : 'development'),
+        NODE_ENV: JSON.stringify('development'),
         WEBPACK: true,
       },
-    }),
-    new MiniCssExtractPlugin({
-      filename: 'bundle.css',
-      chunkFilename: '[id].css',
     }),
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: path.resolve(__dirname, 'src', 'client', 'assets'),
-          to: path.resolve(resultDir, 'assets'),
+          from: path.resolve(__dirname, 'src', 'static'),
+          to: path.resolve(__dirname, 'out', 'static'),
         },
       ],
     }),
-    isDevelopment && new webpack.HotModuleReplacementPlugin(),
   ],
   optimization: {
-    minimize: isProduction,
+    minimize: true,
     minimizer: [new TerserPlugin()],
     moduleIds: 'named',
   },
@@ -65,7 +46,7 @@ const commonConfig = {
     rules: [
       {
         test: /\.(js|jsx|tsx|ts)$/,
-        include: [path.resolve(__dirname, 'src', 'client', 'index')],
+        include: [path.resolve(__dirname, 'src')],
         exclude: [path.resolve(__dirname, 'node_modules')],
         loader: 'babel-loader',
         options: {
@@ -83,11 +64,7 @@ const commonConfig = {
       },
       {
         test: /\.css$/i,
-        use: [
-          isProduction && MiniCssExtractPlugin.loader,
-          isDevelopment && 'style-loader',
-          'css-loader',
-        ].filter(Boolean),
+        use: ['style-loader', 'css-loader'].filter(Boolean),
       },
       {
         test: /\.(jpe?g|gif|png|svg)$/i,
@@ -104,9 +81,8 @@ const commonConfig = {
     ],
   },
   resolve: {
-    extensions: ['.*', '.js', '.jsx', '.tsx', '.ts'],
+    extensions: ['.*', '.tsx', '.ts'],
   },
-  devtool: isDevelopment ? 'inline-source-map' : 'source-map',
 }
 
-module.exports = commonConfig
+module.exports = [serverConfig]

@@ -1,0 +1,10 @@
+{
+  "verbose": true,
+  "watch": ["src/server"],
+  "ignore": ["src/client", "dist", "out"],
+  "exec": "webpack --config webpack.dev.js && cross-env NODE_ENV=development node dist/server.js",
+  "events": {
+    "restart": "webpack --config webpack.dev.js && cross-env NODE_ENV=development node dist/server.js"
+  },
+  "ext": "ts tsx css"
+}

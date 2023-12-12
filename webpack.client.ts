@@ -4,6 +4,7 @@ const webpack = require('webpack')
 const TerserPlugin = require('terser-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
 
 const isProduction = process.env.NODE_ENV === 'production'
 const isDevelopment = !isProduction
@@ -47,6 +48,7 @@ module.exports = {
           },
         ],
       }),
+    isDevelopment && new ReactRefreshWebpackPlugin(),
     isDevelopment && new webpack.HotModuleReplacementPlugin(),
   ].filter(Boolean),
   optimization: {
@@ -62,6 +64,9 @@ module.exports = {
         exclude: [path.resolve(projectRoot, 'node_modules')],
         loader: 'babel-loader',
         options: {
+          plugins: [
+            isDevelopment && require.resolve('react-refresh/babel'),
+          ].filter(Boolean),
           presets: [
             [
               '@babel/env',

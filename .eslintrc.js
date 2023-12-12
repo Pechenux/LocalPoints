@@ -20,7 +20,7 @@ module.exports = {
   rules: {
     '@typescript-eslint/no-var-requires': 'off',
     'no-var': 'error',
-    'max-len': ['error', { code: 80 }],
+    'max-len': ['error', { code: 90 }],
     'no-multiple-empty-lines': ['error', { max: 1, maxEOF: 1 }],
     '@typescript-eslint/no-unused-vars': 'off',
     'unused-imports/no-unused-imports': 'error',
