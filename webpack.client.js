@@ -8,12 +8,14 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
 
 const isProduction = process.env.NODE_ENV === 'production'
 const isDevelopment = !isProduction
-const projectRoot = isProduction ? __dirname : path.join(__dirname, '..')
-const outputDir = path.join(projectRoot, 'dist')
+const currentFolder = __dirname.split('/').at(-1)
+const projectRoot = ['dist', 'out'].includes(currentFolder)
+  ? path.join(__dirname, '..')
+  : __dirname
+const outputDir = path.join(projectRoot, isProduction ? 'out' : 'dist')
 
 module.exports = {
   mode: isProduction ? 'production' : 'development',
-  target: 'web',
   entry: {
     client: [
       isProduction ? undefined : 'webpack-hot-middleware/client',
@@ -60,7 +62,7 @@ module.exports = {
     rules: [
       {
         test: /\.(js|jsx|tsx|ts)$/,
-        include: [path.resolve(projectRoot, 'src', 'client')],
+        include: [path.resolve(projectRoot, 'src')],
         exclude: [path.resolve(projectRoot, 'node_modules')],
         loader: 'babel-loader',
         options: {
@@ -84,7 +86,7 @@ module.exports = {
         use: [
           isProduction && MiniCssExtractPlugin.loader,
           isDevelopment && 'style-loader',
-          'css-loader',
+          { loader: 'css-loader', options: { modules: true }},
         ].filter(Boolean),
       },
       {

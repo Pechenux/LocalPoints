@@ -38,7 +38,7 @@ app.use((req, res, next) => {
 })
 
 if (process.env.NODE_ENV === 'development') {
-  const config = require('../../webpack.client')
+  const config = require('../../webpack.client.js')
   const compiler = webpack(config)
   app.use(
     WebpackDevMiddleware(compiler, {
@@ -52,13 +52,14 @@ if (process.env.NODE_ENV === 'development') {
         chunks: false,
         chunkModules: false,
       },
-      writeToDisk: true
+      writeToDisk: false
     }),
   )
   app.use(require('webpack-hot-middleware')(compiler))
   app.use(express.static(path.resolve(__dirname, 'static')))
 } else if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.resolve(__dirname, 'out')))
+  app.use(express.static(path.resolve(__dirname, 'static')))
+  app.use(express.static(path.resolve(__dirname)))
   app.use(compression())
 }
 

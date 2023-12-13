@@ -62,25 +62,26 @@ module.exports = {
           ],
         },
       },
-      {
-        test: /\.css$/i,
-        use: ['style-loader', 'css-loader'].filter(Boolean),
-      },
-      {
-        test: /\.(jpe?g|gif|png|svg)$/i,
-        use: [
-          {
-            loader: 'url-loader',
-            options: {
-              limit: 10000,
-            },
-          },
-        ],
-      },
+      // {
+      //   test: /\.css$/i,
+      //   use: ['style-loader', 'css-loader'],
+      // },
+      // {
+      //   test: /\.(jpe?g|gif|png|svg)$/i,
+      //   use: [
+      //     {
+      //       loader: 'url-loader',
+      //       options: {
+      //         limit: 10000,
+      //       },
+      //     },
+      //   ],
+      // },
       // todo: add font loader
     ],
   },
   resolve: {
     extensions: ['.*', '.tsx', '.ts'],
   },
+  devtool: 'source-map',
 }
