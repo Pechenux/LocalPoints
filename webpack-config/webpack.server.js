@@ -6,6 +6,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const nodeExternals = require('webpack-node-externals')
+const TerserPlugin = require('terser-webpack-plugin')
 
 const appDirectory = fs.realpathSync(process.cwd())
 const resolveApp = (relativePath) => path.resolve(appDirectory, relativePath)
@@ -14,14 +15,20 @@ const isProduction = process.env.NODE_ENV === 'production'
 const isDevelopment = !isProduction
 
 module.exports = {
+  name: 'server',
   target: 'node',
   mode: isProduction ? 'production' : 'development',
-  entry: resolveApp('src/server/index.js'),
+  entry: resolveApp('src/server/index.ts'),
   output: {
     path: path.resolve(isProduction ? 'out' : 'dist'),
     filename: 'server.js',
   },
   externals: [nodeExternals()],
+  optimization: {
+    minimize: isProduction,
+    minimizer: [new TerserPlugin()],
+    moduleIds: 'named',
+  },
   module: {
     rules: [
       {
@@ -77,13 +84,21 @@ module.exports = {
         WEBPACK: true,
       },
     }),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: resolveApp('src/static'),
+          to: path.resolve(isProduction ? 'out' : 'dist', 'static'),
+        },
+      ],
+    }),
     isProduction &&
       new MiniCssExtractPlugin({
         filename: 'css/[name]_server.css',
         chunkFilename: '[id]_server.css',
       }),
-  ],
+  ].filter(Boolean),
   resolve: {
-    extensions: ['.*', '.ts', '.tsx', '.css'],
+    extensions: ['.*', '.js', '.jsx', '.ts', '.tsx', '.css'],
   },
 }

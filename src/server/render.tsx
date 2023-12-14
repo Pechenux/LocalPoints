@@ -1,12 +1,7 @@
 import { renderToString } from 'react-dom/server'
 import { StaticRouter } from 'react-router-dom/server'
-import { FC, Fragment } from 'react'
 
-let App: FC = Fragment
-if (process.env.NODE_ENV === 'production') {
-  App = require('../client/App').default
-}
-// import App from '../client/App'
+import App from '../client/App'
 
 import Head from './components/Head'
 
@@ -29,16 +24,12 @@ function renderBody(req: Request, res: Response) {
     '<body><noscript>You need to enable JavaScript to run this app.</noscript>',
   )
 
-  if (process.env.NODE_ENV === 'production') {
-    const html = renderToString(
-      <StaticRouter location={req.url}>
-        <App />
-      </StaticRouter>,
-    )
-    res.write(`<div id="root">${html}</div>`)
-  } else {
-    res.write(`<div id="root"></div>`)
-  }
+  const html = renderToString(
+    <StaticRouter location={req.url}>
+      <App />
+    </StaticRouter>,
+  )
+  res.write(`<div id="root">${html}</div>`)
 
   res.write('</script></body>')
 }

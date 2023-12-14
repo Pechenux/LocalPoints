@@ -9,7 +9,6 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const appDirectory = fs.realpathSync(process.cwd())
 const resolveApp = (relativePath) => path.resolve(appDirectory, relativePath)
-console.log('Starting client side webpack')
 
 const isProduction = process.env.NODE_ENV === 'production'
 const isDevelopment = !isProduction
@@ -19,10 +18,10 @@ module.exports = {
   mode: isProduction ? 'production' : 'development',
   devtool: isDevelopment ? 'inline-source-map' : 'source-map',
   entry: {
-    main: [
+    client: [
       isProduction ? undefined : 'webpack-hot-middleware/client',
-      resolveApp('src/client/index.ts')
-    ]
+      resolveApp('src/client/index.tsx')
+    ].filter(Boolean)
   },
   target: 'web',
   output: {
@@ -110,8 +109,8 @@ module.exports = {
         }),
     isDevelopment && new ReactRefreshWebpackPlugin(),
     isDevelopment && new webpack.HotModuleReplacementPlugin(),
-  ],
+  ].filter(Boolean),
   resolve: {
-    extensions: ['.*', '.ts', '.tsx', '.css'],
+    extensions: ['.*', '.js', '.jsx', '.ts', '.tsx', '.css'],
   },
 }
