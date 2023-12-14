@@ -1,0 +1,117 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "react",
+    "react-hooks",
+    "import",
+    "unused-imports",
+    "prettier",
+    "@stylistic"
+  ],
+  "rules": {
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off",
+
+    "no-duplicate-imports": "error",
+    "no-else-return": "error",
+    "no-empty": "off",
+    "no-empty-function": ["error", { "allow": ["arrowFunctions"] }],
+    "prefer-arrow-callback": "error",
+    "arrow-body-style": ["error", "as-needed"],
+    "prefer-destructuring": "error",
+
+    "prettier/prettier": "error",
+    "@stylistic/semi": ["error", "never"],
+    "@stylistic/quotes": ["error", "single", { "avoidEscape": true }],
+    "@stylistic/no-trailing-spaces": "error",
+    "@stylistic/spaced-comment": ["error", "always"],
+    "@stylistic/linebreak-style": ["error", "unix"],
+    "@stylistic/eol-last": ["error", "always"],
+    "@stylistic/no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 1, "maxBOF": 0 }],
+    "@stylistic/nonblock-statement-body-position": ["error", "beside", { "overrides": { "while": "below" } }],
+    "@stylistic/brace-style": ["error", "1tbs", { "allowSingleLine": true }],
+    "@stylistic/indent": ["error", 2],
+    "@stylistic/space-before-blocks": ["error", "always"],
+    "@stylistic/keyword-spacing": "error",
+    "@stylistic/space-infix-ops": ["error", { "int32Hint": false }],
+    "@stylistic/newline-per-chained-call": ["error", { "ignoreChainWithDepth": 2 }],
+    "@stylistic/no-whitespace-before-property": "error",
+    "@stylistic/padded-blocks": ["error", "never"],
+    "@stylistic/space-in-parens": ["error", "never"],
+    "@stylistic/array-bracket-spacing": ["error", "never"],
+    "@stylistic/object-curly-spacing": ["error", "always"],
+    "@stylistic/function-call-spacing": ["error", "never"],
+    "@stylistic/key-spacing": "error",
+    "@stylistic/comma-style": "error",
+    "@stylistic/arrow-spacing": "error",
+    "@stylistic/arrow-parens": ["error", "as-needed"],
+
+    "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/camelcase": "off",
+    "no-var": "error",
+
+    "@typescript-eslint/no-unused-vars": "off",
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": [
+      "warn",
+      {
+        "vars": "all",
+        "varsIgnorePattern": "^_",
+        "args": "after-used",
+        "argsIgnorePattern": "^_"
+      }
+    ],
+
+    "import/order": [
+      "error",
+      {
+        "groups": [
+          "builtin",
+          "external",
+          "internal",
+          "parent",
+          "sibling",
+          "index",
+          "type",
+          "object"
+        ],
+        "pathGroups": [
+          {
+            "pattern": "**/*.svg",
+            "group": "object"
+          }
+        ],
+        "newlines-between": "always"
+      }
+    ]
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {}
+    },
+    "react": {
+        "pragma": "React",
+        "fragment": "Fragment",
+        "version": "detect"
+    }
+  }
+}

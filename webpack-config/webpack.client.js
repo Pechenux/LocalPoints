@@ -8,7 +8,7 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const appDirectory = fs.realpathSync(process.cwd())
-const resolveApp = (relativePath) => path.resolve(appDirectory, relativePath)
+const resolveApp = relativePath => path.resolve(appDirectory, relativePath)
 
 const isProduction = process.env.NODE_ENV === 'production'
 const isDevelopment = !isProduction
@@ -20,8 +20,8 @@ module.exports = {
   entry: {
     client: [
       isProduction ? undefined : 'webpack-hot-middleware/client',
-      resolveApp('src/client/index.tsx')
-    ].filter(Boolean)
+      resolveApp('src/client/index.tsx'),
+    ].filter(Boolean),
   },
   target: 'web',
   output: {
@@ -52,7 +52,7 @@ module.exports = {
         use: [
           isProduction && MiniCssExtractPlugin.loader,
           isDevelopment && 'style-loader',
-          { loader: 'css-loader', options: { modules: true }},
+          { loader: 'css-loader', options: { modules: true } },
         ].filter(Boolean),
         exclude: /\.module\.css$/,
       },
@@ -99,14 +99,14 @@ module.exports = {
         chunkFilename: '[id].css',
       }),
     isProduction &&
-        new CopyWebpackPlugin({
-          patterns: [
-            {
-              from: resolveApp('src/client/assets'),
-              to: path.resolve(isProduction ? 'out' : 'dist', 'assets'),
-            },
-          ],
-        }),
+      new CopyWebpackPlugin({
+        patterns: [
+          {
+            from: resolveApp('src/client/assets'),
+            to: path.resolve(isProduction ? 'out' : 'dist', 'assets'),
+          },
+        ],
+      }),
     isDevelopment && new ReactRefreshWebpackPlugin(),
     isDevelopment && new webpack.HotModuleReplacementPlugin(),
   ].filter(Boolean),
