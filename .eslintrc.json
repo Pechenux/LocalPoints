@@ -31,7 +31,6 @@
     "react/jsx-uses-react": "off",
     "react/react-in-jsx-scope": "off",
 
-    "no-duplicate-imports": "error",
     "no-else-return": "error",
     "no-empty": "off",
     "no-empty-function": ["error", { "allow": ["arrowFunctions"] }],
@@ -81,6 +80,7 @@
       }
     ],
 
+    "import/no-duplicates": ["error", {"considerQueryString": true}],
     "import/order": [
       "error",
       {

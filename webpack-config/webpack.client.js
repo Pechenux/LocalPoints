@@ -5,7 +5,6 @@ const webpack = require('webpack')
 const TerserPlugin = require('terser-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
 
 const appDirectory = fs.realpathSync(process.cwd())
 const resolveApp = relativePath => path.resolve(appDirectory, relativePath)
@@ -74,7 +73,7 @@ module.exports = {
         include: /\.module\.css$/,
       },
       {
-        test: /\.(jpe?g|gif|png|svg)$/i,
+        test: /\.(jpe?g|gif|png)$/i,
         use: [
           {
             loader: 'url-loader',
@@ -98,19 +97,11 @@ module.exports = {
         filename: 'css/[name].css',
         chunkFilename: '[id].css',
       }),
-    isProduction &&
-      new CopyWebpackPlugin({
-        patterns: [
-          {
-            from: resolveApp('src/client/assets'),
-            to: path.resolve(isProduction ? 'out' : 'dist', 'assets'),
-          },
-        ],
-      }),
     isDevelopment && new ReactRefreshWebpackPlugin(),
     isDevelopment && new webpack.HotModuleReplacementPlugin(),
   ].filter(Boolean),
   resolve: {
+    modules: [resolveApp('src'), 'node_modules'],
     extensions: ['.*', '.js', '.jsx', '.ts', '.tsx', '.css'],
   },
 }

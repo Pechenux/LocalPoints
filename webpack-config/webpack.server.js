@@ -64,7 +64,7 @@ module.exports = {
         include: /\.module\.css$/,
       },
       {
-        test: /\.(jpe?g|gif|png|svg)$/i,
+        test: /\.(jpe?g|gif|png)$/i,
         use: [
           {
             loader: 'url-loader',
@@ -98,6 +98,7 @@ module.exports = {
       }),
   ].filter(Boolean),
   resolve: {
+    modules: [resolveApp('src')],
     extensions: ['.*', '.js', '.jsx', '.ts', '.tsx', '.css'],
   },
 }
