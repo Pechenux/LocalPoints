@@ -29,6 +29,7 @@
   "homepage": "https://github.com/Pechenux/LocalPoints#readme",
   "dependencies": {
     "@babel/runtime": "^7.23.6",
+    "@nanostores/react": "^0.7.1",
     "@types/compression": "^1.7.5",
     "@types/express-requests-logger": "^3.0.4",
     "@types/logger": "^0.0.5",
@@ -54,7 +55,6 @@
     "@babel/preset-react": "^7.23.3",
     "@babel/preset-typescript": "^7.23.3",
     "@gravity-ui/eslint-config": "^3.1.1",
-    "@nanostores/react": "^0.7.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.11",
     "@stylistic/eslint-plugin": "^1.5.1",
     "@types/connect-livereload": "^0.6.3",

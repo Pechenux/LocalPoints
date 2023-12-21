@@ -1,11 +1,20 @@
 import { memo } from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import { Logo } from 'assets/Logo'
 
 import styles from './Home.module.css'
 
+import type { MouseEvent } from 'react'
+
 function HomeComponent() {
+  const navigate = useNavigate()
+
+  const handleClick = (event: MouseEvent<HTMLElement>) => {
+    event.preventDefault()
+    navigate('/test')
+  }
+
   return (
     <div className={styles.App}>
       <header className={styles['App-header']}>
@@ -19,8 +28,9 @@ function HomeComponent() {
           target='_blank'
           rel='noopener noreferrer'
         >
-          Learn React <Link to='/test'> go to test page asd</Link>
+          Learn React
         </a>
+        <div onClick={handleClick}>go to test page</div>
       </header>
     </div>
   )
