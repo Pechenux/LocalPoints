@@ -1,6 +1,12 @@
 const path = require('path')
 const fs = require('fs')
 
+const envVariables = {}
+require('dotenv').config({ processEnv: envVariables })
+Object.keys(envVariables).forEach(
+  key => (envVariables[key] = JSON.stringify(envVariables[key])),
+)
+
 const webpack = require('webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
@@ -11,7 +17,6 @@ const appDirectory = fs.realpathSync(process.cwd())
 const resolveApp = relativePath => path.resolve(appDirectory, relativePath)
 
 const isProduction = process.env.NODE_ENV === 'production'
-const isDevelopment = !isProduction
 
 module.exports = {
   name: 'server',
@@ -19,7 +24,7 @@ module.exports = {
   mode: isProduction ? 'production' : 'development',
   entry: resolveApp('src/server/index.ts'),
   output: {
-    path: path.resolve(isProduction ? 'out' : 'dist'),
+    path: path.resolve('out'),
     filename: 'server.js',
   },
   externals: [nodeExternals()],
@@ -40,8 +45,7 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          isProduction && MiniCssExtractPlugin.loader,
-          isDevelopment && 'style-loader',
+          MiniCssExtractPlugin.loader,
           { loader: 'css-loader', options: { modules: true } },
         ].filter(Boolean),
         exclude: /\.module\.css$/,
@@ -49,8 +53,7 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          isProduction && MiniCssExtractPlugin.loader,
-          isDevelopment && 'style-loader',
+          MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
             options: {
@@ -81,21 +84,21 @@ module.exports = {
       'process.env': {
         NODE_ENV: JSON.stringify(isProduction ? 'production' : 'development'),
         WEBPACK: true,
+        ...envVariables,
       },
     }),
     new CopyWebpackPlugin({
       patterns: [
         {
           from: resolveApp('src/static'),
-          to: path.resolve(isProduction ? 'out' : 'dist', 'static'),
+          to: path.resolve('out', 'static'),
         },
       ],
     }),
-    isProduction &&
-      new MiniCssExtractPlugin({
-        filename: 'css/[name]_server.css',
-        chunkFilename: '[id]_server.css',
-      }),
+    new MiniCssExtractPlugin({
+      filename: 'css/[name]_server.css',
+      chunkFilename: '[id]_server.css',
+    }),
   ].filter(Boolean),
   resolve: {
     modules: [resolveApp('src')],

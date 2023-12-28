@@ -1,15 +1,18 @@
 import { Routes, Route } from 'react-router-dom'
-import { memo } from 'react'
+import { Provider } from 'jotai'
 
-import { Home, Test } from 'client/pages'
+import { Home } from 'client/pages'
 
-function AppComponent() {
+import style from './App.module.css'
+
+export function App() {
   return (
-    <Routes>
-      <Route path='/' element={<Home />} />
-      <Route path='/test' element={<Test />} />
-    </Routes>
+    <div className={style.app}>
+      <Provider>
+        <Routes>
+          <Route path='/' element={<Home />} />
+        </Routes>
+      </Provider>
+    </div>
   )
 }
-
-export const App = memo(AppComponent)

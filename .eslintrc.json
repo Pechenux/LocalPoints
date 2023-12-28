@@ -64,6 +64,8 @@
     "@stylistic/arrow-spacing": "error",
     "@stylistic/arrow-parens": ["error", "as-needed"],
 
+    "@typescript-eslint/consistent-type-imports": "error",
+
     "@typescript-eslint/no-var-requires": "off",
     "@typescript-eslint/camelcase": "off",
     "no-var": "error",

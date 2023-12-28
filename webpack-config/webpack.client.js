@@ -1,6 +1,12 @@
 const path = require('path')
 const fs = require('fs')
 
+const envVariables = {}
+require('dotenv').config({ processEnv: envVariables })
+Object.keys(envVariables).forEach(
+  key => (envVariables[key] = JSON.stringify(envVariables[key])),
+)
+
 const webpack = require('webpack')
 const TerserPlugin = require('terser-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
@@ -24,7 +30,7 @@ module.exports = {
   },
   target: 'web',
   output: {
-    path: path.resolve(isProduction ? 'out' : 'dist'),
+    path: path.resolve('out'),
     publicPath: '/js/',
     filename: '[name].js',
     chunkFilename: '[name].chunk.js',
@@ -49,8 +55,7 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          isProduction && MiniCssExtractPlugin.loader,
-          isDevelopment && 'style-loader',
+          MiniCssExtractPlugin.loader,
           { loader: 'css-loader', options: { modules: true } },
         ].filter(Boolean),
         exclude: /\.module\.css$/,
@@ -58,8 +63,7 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          isProduction && MiniCssExtractPlugin.loader,
-          isDevelopment && 'style-loader',
+          MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
             options: {
@@ -90,13 +94,13 @@ module.exports = {
       'process.env': {
         NODE_ENV: JSON.stringify(isProduction ? 'production' : 'development'),
         WEBPACK: true,
+        ...envVariables,
       },
     }),
-    isProduction &&
-      new MiniCssExtractPlugin({
-        filename: 'css/[name].css',
-        chunkFilename: '[id].css',
-      }),
+    new MiniCssExtractPlugin({
+      filename: 'css/[name].css',
+      chunkFilename: '[id].css',
+    }),
     isDevelopment && new ReactRefreshWebpackPlugin(),
     isDevelopment && new webpack.HotModuleReplacementPlugin(),
   ].filter(Boolean),
