@@ -35,7 +35,7 @@
     "no-empty": "off",
     "no-empty-function": ["error", { "allow": ["arrowFunctions"] }],
     "prefer-arrow-callback": "error",
-    "arrow-body-style": ["error", "as-needed"],
+    "arrow-body-style": "off", //["error", "as-needed"],
     "prefer-destructuring": "error",
 
     "prettier/prettier": "error",

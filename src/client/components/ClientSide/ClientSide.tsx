@@ -1,9 +1,8 @@
 import { useClientOnly } from 'client/hooks'
 
-import type { FC, ReactNode } from 'react'
+import type { FC, PropsWithChildren, ReactNode } from 'react'
 
-interface ClientSideProps {
-  children: ReactNode
+interface ClientSideProps extends PropsWithChildren {
   fallback?: ReactNode
 }
 

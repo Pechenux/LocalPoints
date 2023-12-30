@@ -47,7 +47,7 @@ module.exports = {
         use: [
           MiniCssExtractPlugin.loader,
           { loader: 'css-loader', options: { modules: true } },
-        ].filter(Boolean),
+        ],
         exclude: /\.module\.css$/,
       },
       {
@@ -63,7 +63,7 @@ module.exports = {
               },
             },
           },
-        ].filter(Boolean),
+        ],
         include: /\.module\.css$/,
       },
       {

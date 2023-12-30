@@ -1,0 +1,6 @@
+.panelContainer {
+  height: 100%;
+  width: 480px;
+
+  z-index: 1;
+}

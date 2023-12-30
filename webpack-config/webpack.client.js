@@ -31,7 +31,7 @@ module.exports = {
   target: 'web',
   output: {
     path: path.resolve('out'),
-    publicPath: '/js/',
+    publicPath: '/',
     filename: '[name].js',
     chunkFilename: '[name].chunk.js',
   },
@@ -57,7 +57,7 @@ module.exports = {
         use: [
           MiniCssExtractPlugin.loader,
           { loader: 'css-loader', options: { modules: true } },
-        ].filter(Boolean),
+        ],
         exclude: /\.module\.css$/,
       },
       {
@@ -73,7 +73,7 @@ module.exports = {
               },
             },
           },
-        ].filter(Boolean),
+        ],
         include: /\.module\.css$/,
       },
       {

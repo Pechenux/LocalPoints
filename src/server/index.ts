@@ -12,7 +12,7 @@ import {
 import { Command } from 'commander'
 
 import pages from './pages'
-import { addDevMiddleware } from './middleware/dev-middleware'
+import { addDevMiddleware } from './middleware/devMiddleware'
 
 const program = new Command()
 program.option('-p, --port [value]', 'Startup port')
